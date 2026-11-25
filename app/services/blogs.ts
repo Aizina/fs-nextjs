@@ -41,3 +41,21 @@ const blogs = (store.blogList ??= initialBlogs);
 export function getBlogs(): Blog[] {
   return [...blogs];
 }
+
+export function addBlog(
+  title: string,
+  author: string,
+  url: string
+): Blog {
+  const newBlog: Blog = {
+    id: crypto.randomUUID(),
+    title,
+    author,
+    url,
+    likes: 0,
+  };
+
+  blogs.push(newBlog);
+
+  return newBlog;
+}
