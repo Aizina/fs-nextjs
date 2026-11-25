@@ -38,8 +38,14 @@ const store = globalThis as typeof globalThis & {
 
 const blogs = (store.blogList ??= initialBlogs);
 
-export function getBlogs(): Blog[] {
-  return [...blogs].sort((a, b) => b.likes - a.likes);
+export function getBlogs(filter = ""): Blog[] {
+  return blogs
+    .filter((blog) =>
+      blog.title
+        .toLowerCase()
+        .includes(filter.trim().toLowerCase())
+    )
+    .sort((a, b) => b.likes - a.likes);
 }
 
 export function addBlog(
