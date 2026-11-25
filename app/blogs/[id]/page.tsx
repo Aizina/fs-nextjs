@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getBlog } from "../../services/blogs";
+import { incrementLikes } from "../../actions/blogs";
 
 export const dynamic = "force-dynamic";
 
@@ -28,6 +29,16 @@ export default async function BlogPage({ params }: Props) {
       </p>
 
       <p>Likes: {blog.likes}</p>
+
+      <form action={incrementLikes}>
+        <input
+          type="hidden"
+          name="id"
+          value={blog.id}
+        />
+
+        <button type="submit">Like</button>
+      </form>
 
       <Link href="/blogs">Back to blogs</Link>
     </div>

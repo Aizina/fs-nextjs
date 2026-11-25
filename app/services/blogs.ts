@@ -63,3 +63,16 @@ export function addBlog(
 export function getBlog(id: string): Blog | undefined {
   return blogs.find((blog) => blog.id === id);
 }
+
+
+export function likeBlog(id: string): boolean {
+  const blog = blogs.find((blog) => blog.id === id);
+
+  if (!blog) {
+    return false;
+  }
+
+  blog.likes += 1;
+
+  return true;
+}
