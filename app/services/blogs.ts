@@ -39,7 +39,7 @@ const store = globalThis as typeof globalThis & {
 const blogs = (store.blogList ??= initialBlogs);
 
 export function getBlogs(): Blog[] {
-  return [...blogs];
+  return [...blogs].sort((a, b) => b.likes - a.likes);
 }
 
 export function addBlog(
