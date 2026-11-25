@@ -59,3 +59,7 @@ export function addBlog(
 
   return newBlog;
 }
+
+export function getBlog(id: string): Blog | undefined {
+  return blogs.find((blog) => blog.id === id);
+}

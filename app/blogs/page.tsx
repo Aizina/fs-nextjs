@@ -14,9 +14,13 @@ export default function BlogsPage() {
 
       <ul>
         {blogs.map((blog) => (
-          <li key={blog.id}>
-            {blog.title} — {blog.author}
-          </li>
+            <li key={blog.id}>
+            <Link href={`/blogs/${blog.id}`}>
+                {blog.title}
+            </Link>
+            {" — "}
+            {blog.author}
+            </li>
         ))}
       </ul>
     </div>
