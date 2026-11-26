@@ -1,3 +1,5 @@
+import { relations } from "drizzle-orm";
+
 import {
   pgTable,
   serial,
@@ -26,3 +28,20 @@ export const blogs = pgTable("blogs", {
     () => users.id
   ),
 });
+
+export const usersRelations = relations(
+  users,
+  ({ many }) => ({
+    blogs: many(blogs),
+  })
+);
+
+export const blogsRelations = relations(
+  blogs,
+  ({ one }) => ({
+    user: one(users, {
+      fields: [blogs.userId],
+      references: [users.id],
+    }),
+  })
+);
