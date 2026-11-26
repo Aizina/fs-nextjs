@@ -17,7 +17,7 @@ export default function LoginPage() {
     }, [error, showNotification]);
 
   return (
-    <div>
+    <div className="panel mx-auto max-w-md">
       <h1>Login</h1>
 
       <form action={formAction}>

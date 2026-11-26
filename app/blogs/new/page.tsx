@@ -10,7 +10,7 @@ export default async function NewBlogPage() {
   }
 
   return (
-    <div>
+    <div className="panel mx-auto max-w-xl">
       <h1>Create a new blog</h1>
       <BlogForm />
     </div>

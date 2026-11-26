@@ -30,7 +30,7 @@ export default async function BlogPage({
   }
 
   return (
-    <div>
+    <div className="panel">
       <h1>{blog.title}</h1>
 
       <p>Author: {blog.author}</p>
@@ -39,7 +39,12 @@ export default async function BlogPage({
         URL: <a href={blog.url}>{blog.url}</a>
       </p>
 
-      <p>Likes: {blog.likes}</p>
+      <p
+        data-testid="blog-likes"
+        className="my-4 font-semibold"
+      >
+        Likes: {blog.likes}
+      </p>
 
       <form action={incrementLikes}>
         <input
@@ -48,7 +53,12 @@ export default async function BlogPage({
           value={blog.id}
         />
 
-        <button type="submit">Like</button>
+        <button
+          type="submit"
+          data-testid="like-button"
+        >
+          Like
+        </button>
       </form>
 
       <Link href="/blogs">Back to blogs</Link>

@@ -73,6 +73,7 @@ export default function BlogForm() {
         type="submit"
         data-testid="create-blog-button"
         disabled={pending}
+        className="w-full"
       >
         {pending ? "Creating..." : "Create blog"}
       </button>

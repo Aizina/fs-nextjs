@@ -11,7 +11,7 @@ export default function RegisterPage() {
     useActionState(registerUser, initialState);
 
   return (
-    <div>
+    <div className="panel mx-auto max-w-md">
       <h1>Register</h1>
 
       <form action={formAction} noValidate>

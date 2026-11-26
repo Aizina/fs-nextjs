@@ -24,33 +24,59 @@ export default function Navbar() {
     };
   }, [pathname]);
 
-  return (
-    <nav>
-      <Link href="/">Home</Link>
-      <Link href="/blogs">Blogs</Link>
-      <Link href="/users">Users</Link>
+    return (
+    <nav className="bg-slate-900 text-white">
+        <div className="mx-auto flex max-w-6xl flex-wrap
+        items-center gap-5 px-6 py-4">
 
-      {session?.user ? (
-        <>
-          <span data-testid="logged-in-user">
-            {session.user.name} logged in
-          </span>
+        <Link
+            href="/"
+            className="mr-4 text-xl font-bold text-white"
+        >
+            Blog App
+        </Link>
 
-          <form action={logoutUser}>
-            <button
-              type="submit"
-              data-testid="logout-button"
-            >
-              Logout
-            </button>
-          </form>
-        </>
-        ) : (
-        <>
-            <Link href="/login">Login</Link>
-            <Link href="/register">Register</Link>
-        </>
-        )}
+        <Link href="/" className="text-white">Home</Link>
+        <Link href="/blogs" className="text-white">Blogs</Link>
+        <Link href="/users" className="text-white">Users</Link>
+
+        <div className="ml-auto flex items-center gap-4">
+            {session?.user ? (
+            <>
+                <span
+                data-testid="logged-in-user"
+                className="text-sm text-slate-300"
+                >
+                {session.user.name} logged in
+                </span>
+
+                <form action={logoutUser}>
+                <button
+                    type="submit"
+                    data-testid="logout-button"
+                    className="bg-slate-700 hover:bg-slate-600"
+                >
+                    Logout
+                </button>
+                </form>
+            </>
+            ) : (
+            <>
+                <Link href="/login" className="text-white">
+                Login
+                </Link>
+
+                <Link
+                href="/register"
+                className="rounded-lg bg-blue-600
+                    px-4 py-2 text-white"
+                >
+                Register
+                </Link>
+            </>
+            )}
+        </div>
+        </div>
     </nav>
-  );
+    );
 }
