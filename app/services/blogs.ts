@@ -36,7 +36,8 @@ export async function getBlog(
 export async function addBlog(
   title: string,
   author: string,
-  url: string
+  url: string,
+  userId: number
 ): Promise<Blog> {
   const result = await db
     .insert(blogs)
@@ -45,6 +46,7 @@ export async function addBlog(
       author,
       url,
       likes: 0,
+      userId,
     })
     .returning();
 

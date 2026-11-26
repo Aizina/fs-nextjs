@@ -1,34 +1,18 @@
-import { createBlog } from "../../actions/blogs";
+import BlogForm from "../../components/BlogForm";
+import { getCurrentUser } from "../../services/users";
+import { redirect } from "next/navigation";
 
-export default function NewBlogPage() {
+export default async function NewBlogPage() {
+  const user = await getCurrentUser();
+
+  if (!user) {
+    redirect("/login");
+  }
+
   return (
     <div>
       <h1>Create a new blog</h1>
-
-      <form action={createBlog}>
-        <div>
-          <label>
-            Title:
-            <input type="text" name="title" required />
-          </label>
-        </div>
-
-        <div>
-          <label>
-            Author:
-            <input type="text" name="author" required />
-          </label>
-        </div>
-
-        <div>
-          <label>
-            URL:
-            <input type="url" name="url" required />
-          </label>
-        </div>
-
-        <button type="submit">Create blog</button>
-      </form>
+      <BlogForm />
     </div>
   );
 }
