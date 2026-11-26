@@ -19,13 +19,15 @@ export default async function BlogsPage({
       ? filter
       : filter?.[0] ?? "";
 
-  const blogs = getBlogs(search);
+  const blogs = await getBlogs(search);
 
   return (
     <div>
       <h1>Blogs</h1>
 
-      <Link href="/blogs/new">Create new blog</Link>
+      <Link href="/blogs/new">
+        Create new blog
+      </Link>
 
       <form action="/blogs" method="GET">
         <input

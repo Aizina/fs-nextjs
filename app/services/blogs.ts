@@ -1,84 +1,68 @@
 import "server-only";
 
-export type Blog = {
-  id: string;
-  title: string;
-  author: string;
-  url: string;
-  likes: number;
-};
+import { db } from "../../db";
+import { blogs } from "../../db/schema";
+import { desc, eq, sql } from "drizzle-orm";
 
-const initialBlogs: Blog[] = [
-  {
-    id: "1",
-    title: "Learning Next.js",
-    author: "John Smith",
-    url: "https://nextjs.org",
-    likes: 5,
-  },
-  {
-    id: "2",
-    title: "React Best Practices",
-    author: "Jane Doe",
-    url: "https://react.dev",
-    likes: 12,
-  },
-  {
-    id: "3",
-    title: "Full Stack Development",
-    author: "Alice Brown",
-    url: "https://fullstackopen.com",
-    likes: 8,
-  },
-];
+export type Blog = typeof blogs.$inferSelect;
 
-const store = globalThis as typeof globalThis & {
-  blogList?: Blog[];
-};
+export async function getBlogs(
+  filter = ""
+): Promise<Blog[]> {
+  const allBlogs = await db
+    .select()
+    .from(blogs)
+    .orderBy(desc(blogs.likes));
 
-const blogs = (store.blogList ??= initialBlogs);
+  const search = filter.trim().toLowerCase();
 
-export function getBlogs(filter = ""): Blog[] {
-  return blogs
-    .filter((blog) =>
-      blog.title
-        .toLowerCase()
-        .includes(filter.trim().toLowerCase())
-    )
-    .sort((a, b) => b.likes - a.likes);
+  return allBlogs.filter((blog) =>
+    blog.title.toLowerCase().includes(search)
+  );
 }
 
-export function addBlog(
+export async function getBlog(
+  id: number
+): Promise<Blog | undefined> {
+  const result = await db
+    .select()
+    .from(blogs)
+    .where(eq(blogs.id, id))
+    .limit(1);
+
+  return result[0];
+}
+
+export async function addBlog(
   title: string,
   author: string,
   url: string
-): Blog {
-  const newBlog: Blog = {
-    id: crypto.randomUUID(),
-    title,
-    author,
-    url,
-    likes: 0,
-  };
+): Promise<Blog> {
+  const result = await db
+    .insert(blogs)
+    .values({
+      title,
+      author,
+      url,
+      likes: 0,
+    })
+    .returning();
 
-  blogs.push(newBlog);
-
-  return newBlog;
+  return result[0];
 }
 
-export function getBlog(id: string): Blog | undefined {
-  return blogs.find((blog) => blog.id === id);
-}
+export async function likeBlog(
+  id: number
+): Promise<boolean> {
+  const result = await db
+    .update(blogs)
+    .set({
+      likes: sql`${blogs.likes} + 1`,
+    })
+    .where(eq(blogs.id, id))
+    .returning({
+      id: blogs.id,
+    });
 
-
-export function likeBlog(id: string): boolean {
-  const blog = blogs.find((blog) => blog.id === id);
-
-  if (!blog) {
-    return false;
-  }
-
-  blog.likes += 1;
-
-  return true;
+  return result.length > 0;
 }

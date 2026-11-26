@@ -9,10 +9,21 @@ type Props = {
   params: Promise<{ id: string }>;
 };
 
-export default async function BlogPage({ params }: Props) {
+export default async function BlogPage({
+  params,
+}: Props) {
   const { id } = await params;
 
-  const blog = getBlog(id);
+  const blogId = Number(id);
+
+  if (
+    !Number.isSafeInteger(blogId) ||
+    blogId <= 0
+  ) {
+    notFound();
+  }
+
+  const blog = await getBlog(blogId);
 
   if (!blog) {
     notFound();
