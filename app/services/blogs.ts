@@ -1,7 +1,7 @@
 import "server-only";
 
 import { db } from "../../db";
-import { blogs } from "../../db/schema";
+import { blogs, readingList } from "../../db/schema";
 import { desc, eq, sql } from "drizzle-orm";
 
 export type Blog = typeof blogs.$inferSelect;
@@ -38,19 +38,20 @@ export async function addBlog(
   author: string,
   url: string,
   userId: number
-): Promise<Blog> {
-  const result = await db
-    .insert(blogs)
-    .values({
-      title,
-      author,
-      url,
-      likes: 0,
-      userId,
-    })
-    .returning();
-
-  return result[0];
+): Promise<void> {
+  await db.execute(sql`
+    WITH created_blog AS (
+      INSERT INTO ${blogs}
+        (title, author, url, user_id)
+      VALUES
+        (${title}, ${author}, ${url}, ${userId})
+      RETURNING id
+    )
+    INSERT INTO ${readingList}
+      (user_id, blog_id)
+    SELECT ${userId}, id
+    FROM created_blog
+  `);
 }
 
 export async function likeBlog(

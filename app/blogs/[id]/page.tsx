@@ -1,7 +1,12 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+
 import { getBlog } from "../../services/blogs";
+import { getCurrentUser } from "../../services/users";
+import { isInReadingList } from "../../services/readingList";
+
 import { incrementLikes } from "../../actions/blogs";
+import { addToReadingList } from "../../actions/readingList";
 
 export const dynamic = "force-dynamic";
 
@@ -16,10 +21,7 @@ export default async function BlogPage({
 
   const blogId = Number(id);
 
-  if (
-    !Number.isSafeInteger(blogId) ||
-    blogId <= 0
-  ) {
+  if (!Number.isSafeInteger(blogId) || blogId <= 0) {
     notFound();
   }
 
@@ -29,13 +31,21 @@ export default async function BlogPage({
     notFound();
   }
 
+  const user = await getCurrentUser();
+
+  const inReadingList = user
+    ? await isInReadingList(user.id, blog.id)
+    : false;
+
   return (
     <div className="panel">
       <h1>{blog.title}</h1>
 
-      <p>Author: {blog.author}</p>
+      <p className="my-3">
+        Author: {blog.author}
+      </p>
 
-      <p>
+      <p className="my-3">
         URL: <a href={blog.url}>{blog.url}</a>
       </p>
 
@@ -61,7 +71,40 @@ export default async function BlogPage({
         </button>
       </form>
 
-      <Link href="/blogs">Back to blogs</Link>
+      {user &&
+        blog.userId !== user.id &&
+        !inReadingList && (
+          <form
+            action={addToReadingList}
+            className="mt-4"
+          >
+            <input
+              type="hidden"
+              name="blogId"
+              value={blog.id}
+            />
+
+            <button
+              type="submit"
+              data-testid="add-to-reading-list-button"
+            >
+              Add to reading list
+            </button>
+          </form>
+        )}
+
+      {user && inReadingList && (
+        <p className="mt-4 text-green-700">
+          Already in reading list
+        </p>
+      )}
+
+      <Link
+        href="/blogs"
+        className="mt-6 inline-block"
+      >
+        Back to blogs
+      </Link>
     </div>
   );
 }

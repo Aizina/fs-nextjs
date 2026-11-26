@@ -60,6 +60,7 @@ export async function createBlog(
 
   revalidatePath("/blogs");
   revalidatePath(`/users/${user.username}`);
+  revalidatePath("/me");
   
   await setNotification(
     `Blog "${title}" created successfully`
