@@ -45,9 +45,12 @@ export default function Navbar() {
             </button>
           </form>
         </>
-      ) : (
-        <Link href="/login">Login</Link>
-      )}
+        ) : (
+        <>
+            <Link href="/login">Login</Link>
+            <Link href="/register">Register</Link>
+        </>
+        )}
     </nav>
   );
 }
