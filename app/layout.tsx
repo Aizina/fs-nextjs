@@ -18,6 +18,7 @@ export default function RootLayout({
         <nav>
           <Link href="/">Home</Link>
           <Link href="/blogs">Blogs</Link>
+          <Link href="/users">Users</Link>
         </nav>
 
         <main>{children}</main>
