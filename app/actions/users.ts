@@ -5,6 +5,7 @@ import { db } from "../../db";
 import { users } from "../../db/schema";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { setNotification } from "../services/notifications";
 
 import type { RegisterFormState } from "../types/forms";
 
@@ -72,6 +73,10 @@ export async function registerUser(
   }
 
   revalidatePath("/users");
+
+  await setNotification(
+    "User registered successfully"
+    );
 
   redirect("/login");
 }

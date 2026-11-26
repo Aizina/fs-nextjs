@@ -9,6 +9,7 @@ import { getCurrentUser } from "../services/users";
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { setNotification } from "../services/notifications";
 
 export async function createBlog(
   previousState: BlogFormState,
@@ -59,6 +60,10 @@ export async function createBlog(
 
   revalidatePath("/blogs");
   revalidatePath(`/users/${user.username}`);
+  
+  await setNotification(
+    `Blog "${title}" created successfully`
+  );
 
   redirect("/blogs");
 }
@@ -81,3 +86,4 @@ export async function incrementLikes(
   revalidatePath(`/blogs/${id}`);
   revalidatePath("/blogs");
 }
+

@@ -1,14 +1,26 @@
 "use client";
 
-import { useActionState } from "react";
 import { createBlog } from "../actions/blogs";
 import type { BlogFormState } from "../types/forms";
+import { useActionState, useEffect } from "react";
+import { useNotification } from "../context/NotificationContext";
 
 const initialState: BlogFormState = {};
 
 export default function BlogForm() {
   const [state, formAction, pending] =
     useActionState(createBlog, initialState);
+
+    const { showNotification } = useNotification();
+
+    useEffect(() => {
+    if (state.errors) {
+        showNotification(
+        Object.values(state.errors).join(". "),
+        "error"
+        );
+    }
+    }, [state, showNotification]);
 
   return (
     <form action={formAction} noValidate>

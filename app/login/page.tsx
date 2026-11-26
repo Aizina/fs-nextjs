@@ -1,11 +1,20 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { loginUser } from "../actions/auth";
+import { useNotification } from "../context/NotificationContext";
 
 export default function LoginPage() {
   const [error, formAction, pending] =
     useActionState(loginUser, "");
+
+    const { showNotification } = useNotification();
+
+    useEffect(() => {
+      if (error) {
+        showNotification(error, "error");
+      }
+    }, [error, showNotification]);
 
   return (
     <div>
