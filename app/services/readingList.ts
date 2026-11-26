@@ -40,3 +40,25 @@ export async function addReadingListItem(
     })
     .onConflictDoNothing();
 }
+
+export async function markReadingListItemAsRead(
+  id: number,
+  userId: number
+) {
+  const updated = await db
+    .update(readingList)
+    .set({
+      read: true,
+    })
+    .where(
+      and(
+        eq(readingList.id, id),
+        eq(readingList.userId, userId)
+      )
+    )
+    .returning({
+      id: readingList.id,
+    });
+
+  return updated.length > 0;
+}
