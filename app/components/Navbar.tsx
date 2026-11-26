@@ -43,6 +43,11 @@ export default function Navbar() {
         <div className="ml-auto flex items-center gap-4">
             {session?.user ? (
             <>
+
+                <Link href="/me" className="text-white">
+                    My page
+                </Link>
+
                 <span
                 data-testid="logged-in-user"
                 className="text-sm text-slate-300"
