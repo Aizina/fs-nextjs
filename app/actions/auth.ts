@@ -2,6 +2,8 @@
 
 import { signIn, signOut } from "../../auth";
 import { AuthError } from "next-auth";
+import { redirect } from "next/navigation";
+import { setNotification } from "../services/notifications";
 
 export async function loginUser(
   previousState: string,
@@ -11,10 +13,8 @@ export async function loginUser(
     await signIn("credentials", {
       username: formData.get("username"),
       password: formData.get("password"),
-      redirectTo: "/blogs",
+      redirect: false,
     });
-
-    return "";
   } catch (error) {
     if (error instanceof AuthError) {
       if (error.type === "CredentialsSignin") {
@@ -26,6 +26,10 @@ export async function loginUser(
 
     throw error;
   }
+
+  await setNotification("Logged in successfully");
+
+  redirect("/");
 }
 
 export async function logoutUser() {

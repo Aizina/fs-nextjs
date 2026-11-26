@@ -24,9 +24,11 @@ export default function RegisterPage() {
             defaultValue={state.values?.username}
           />
 
-          {state.errors?.username && (
-            <p role="alert">{state.errors.username}</p>
-          )}
+            {state.errors?.username && (
+            <p role="alert" data-testid="username-error">
+                {state.errors.username}
+            </p>
+            )}
         </div>
 
         <div>
@@ -53,9 +55,11 @@ export default function RegisterPage() {
             autoComplete="new-password"
           />
 
-          {state.errors?.password && (
-            <p role="alert">{state.errors.password}</p>
-          )}
+            {state.errors?.passwordConfirm && (
+            <p role="alert" data-testid="passwordConfirm-error">
+                {state.errors.passwordConfirm}
+            </p>
+            )}
         </div>
 
         <div>

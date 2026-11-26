@@ -44,7 +44,7 @@ export default function LoginPage() {
         </div>
 
         {error && (
-          <p role="alert" data-testid="login-error">
+          <p role="alert" data-testid="error-message">
             {error}
           </p>
         )}

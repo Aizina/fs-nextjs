@@ -25,16 +25,13 @@ export default async function BlogsPage({
 
   return (
     <div>
-      <div className="mb-6 flex flex-wrap
-        items-center justify-between gap-4">
-
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
         <h1 className="mb-0">Blogs</h1>
 
         {user && (
           <Link
             href="/blogs/new"
-            className="rounded-lg bg-blue-600
-              px-4 py-2 text-white hover:bg-blue-700"
+            className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
           >
             Create new blog
           </Link>
@@ -52,6 +49,7 @@ export default async function BlogsPage({
           <input
             id="filter"
             name="filter"
+            data-testid="filter-input"
             placeholder="Search blogs..."
             defaultValue={search}
           />
@@ -77,8 +75,7 @@ export default async function BlogsPage({
           <li
             key={blog.id}
             data-testid="blog-item"
-            className="panel flex items-center
-              justify-between gap-4"
+            className="panel flex items-center justify-between gap-4"
           >
             <div>
               <Link
@@ -93,8 +90,7 @@ export default async function BlogsPage({
               </p>
             </div>
 
-            <span className="rounded-full bg-blue-50
-              px-3 py-1 text-sm text-blue-700">
+            <span className="rounded-full bg-blue-50 px-3 py-1 text-sm text-blue-700">
               {blog.likes} likes
             </span>
           </li>
