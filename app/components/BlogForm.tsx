@@ -16,9 +16,10 @@ export default function BlogForm() {
         <label htmlFor="title">Title</label>
 
         <input
-          id="title"
-          name="title"
-          type="text"
+        id="title"
+        name="title"
+        type="text"
+        defaultValue={state.values?.title}
         />
 
         {state.errors?.title && (
@@ -33,6 +34,7 @@ export default function BlogForm() {
           id="author"
           name="author"
           type="text"
+          defaultValue={state.values?.author}
         />
 
         {state.errors?.author && (
@@ -47,6 +49,7 @@ export default function BlogForm() {
           id="url"
           name="url"
           type="text"
+          defaultValue={state.values?.url}
         />
 
         {state.errors?.url && (
